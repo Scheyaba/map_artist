@@ -42,3 +42,16 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+pubspec.lock
+.fvm/flutter_sdk
+
+# firebase関係
+**/firebase_options.dart
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_app_id_file.json
+
+# GoogleMapAPIの保存先
+android/app/src/main/res/values/strings.xml
+ios/Runner/Environment.swift

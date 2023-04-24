@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:map_artist/pages/home.dart';
+import 'package:map_artist/pages/map.dart';
 
 import 'package:map_artist/providers/page_index.dart';
 
@@ -17,8 +18,8 @@ class Root extends ConsumerWidget {
         label:"ホーム"
         ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label:"ホーム"
+        icon: Icon(Icons.map),
+        label:"Map"
         ),
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
@@ -28,7 +29,7 @@ class Root extends ConsumerWidget {
 
     final pages = [
       const Home(),
-      const Home(),
+      const Map(),
       const Home(),
     ];
 

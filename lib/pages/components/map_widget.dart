@@ -13,61 +13,72 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
-  late LocationPermission permissionCopy;
+  late LocationPermission _permission;
   late Position _position;
-  final LatLng _center = const LatLng(35.6816, 139.7655);
+  LatLng _center = const LatLng(35.6816, 139.7655);
 
   Future<void> _goToCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final GoogleMapController mapController = await _controller.future;
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: _position.heading,
-          target: LatLng(_position.latitude, _position.longitude),
+          target: LatLng(position.latitude, position.longitude),
           zoom: 14
         )
       )
     );
   }
 
-  Future<void> _getCurrentLocation() async {
+  Future<LatLng> _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      _position = position;
-    });
+    _position = position;
+    _center = LatLng(position.latitude, position.longitude);
+    return _center;
   }
 
   @override
   void initState() {
     super.initState();
-    permissionCopy = widget.permission;
-    _getCurrentLocation();
+    _permission = widget.permission;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (permissionCopy == LocationPermission.whileInUse || permissionCopy == LocationPermission.always) {
-      return Scaffold(
-        body: GoogleMap(
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          zoomControlsEnabled: false,
-          myLocationEnabled: true,
-          myLocationButtonEnabled:false,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 14.0,
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _goToCurrentLocation,
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.my_location,
-            color: Colors.grey.shade800,
-          ),
-        ),
+    if (_permission == LocationPermission.whileInUse || _permission == LocationPermission.always) {
+      return FutureBuilder<Object>(
+        future: _getCurrentLocation(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              body: GoogleMap(
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                zoomControlsEnabled: false,
+                myLocationEnabled: true,
+                myLocationButtonEnabled:false,
+                initialCameraPosition: CameraPosition(
+                  target: _center, zoom: 14.0,
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: _goToCurrentLocation,
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.my_location,
+                  color: Colors.grey.shade800,
+                ),
+              ),
+            );
+          }
+          else {
+            return const Center(
+              child: CircularProgressIndicator()
+            );
+          }
+        }
       );
     }
     else{

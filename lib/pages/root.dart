@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:map_artist/pages/home.dart';
 import 'package:map_artist/pages/map.dart';
 
-import 'package:map_artist/providers/page_index.dart';
-
-class Root extends ConsumerWidget {
+class Root extends HookWidget {
   const Root({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(indexProvider);
 
+  @override
+  Widget build(BuildContext context) {
+    final index = useState(0);
     const items = [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
@@ -34,13 +32,13 @@ class Root extends ConsumerWidget {
     ];
 
     return Scaffold(
-      body: pages[index],
+      body: pages[index.value],
       bottomNavigationBar: BottomNavigationBar(
-        key: const Key("BottomNavigationBar_rootPage"), // テストコード用
+        key: const Key("BottomNavigationBar_rootPage"), 
         items: items,
-        currentIndex: index,
+        currentIndex: index.value,
         onTap: (indexTap){
-          ref.read(indexProvider.notifier).state = indexTap;
+          index.value = indexTap;
         },
       )
     );

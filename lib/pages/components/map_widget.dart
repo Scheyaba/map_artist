@@ -13,11 +13,24 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(37.4213114, -122.084869);
+  final LatLng _center = const LatLng(35.6816, 139.7655);
   late LocationPermission permissionCopy;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  Future<void> _goToNowlocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: position.heading,
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 14
+        )
+      )
+    );
   }
 
   @override
@@ -28,52 +41,40 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final GoogleMap map;
     if (permissionCopy == LocationPermission.whileInUse || permissionCopy == LocationPermission.always) {
-      map = GoogleMap(
-        onMapCreated: _onMapCreated,
-        zoomControlsEnabled: false,
-        myLocationEnabled: true,
-        myLocationButtonEnabled:false,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 14.0,
+      return Scaffold(
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          zoomControlsEnabled: false,
+          myLocationEnabled: true,
+          myLocationButtonEnabled:false,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 14.0,
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _goToNowlocation,
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.my_location,
+            color: Colors.grey.shade800,
+          ),
         ),
       );
     }
     else{
-      map = GoogleMap(
-        onMapCreated: _onMapCreated,
-        zoomControlsEnabled: false,
-        myLocationEnabled: false,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 14.0,
-        )
+      return Scaffold(
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          zoomControlsEnabled: false,
+          myLocationEnabled: false,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 14.0,
+          )
+        ),
       );
     }
-    return Scaffold(
-      body: map,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _goToNowlocation,
-        backgroundColor: Colors.white,
-        child: Icon(
-          Icons.my_location,
-          color: Colors.grey.shade800,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _goToNowlocation() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    mapController.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: position.heading,
-          target: LatLng(position.latitude, position.longitude),
-          zoom: 14)
-      )
-    );
   }
 }

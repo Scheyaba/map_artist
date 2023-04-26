@@ -6,10 +6,10 @@ import 'package:map_artist/pages/map.dart';
 
 class Root extends HookWidget {
   const Root({super.key});
+
   @override
   Widget build(BuildContext context) {
     final index = useState(0);
-
     const items = [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),

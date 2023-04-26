@@ -34,6 +34,7 @@ class _MapWidgetState extends State<MapWidget> {
         onMapCreated: _onMapCreated,
         zoomControlsEnabled: false,
         myLocationEnabled: true,
+        myLocationButtonEnabled:false,
         initialCameraPosition: CameraPosition(
           target: _center,
           zoom: 14.0,
@@ -51,6 +52,28 @@ class _MapWidgetState extends State<MapWidget> {
         )
       );
     }
-    return map;
+    return Scaffold(
+      body: map,
+      floatingActionButton: FloatingActionButton(
+        onPressed: _goToNowlocation,
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.my_location,
+          color: Colors.grey.shade800,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _goToNowlocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: position.heading,
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 14)
+      )
+    );
   }
 }

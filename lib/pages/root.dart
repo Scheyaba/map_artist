@@ -27,7 +27,7 @@ class Root extends HookWidget {
 
     final pages = [
       const Home(),
-      const Map(),
+      const Placeholder(),
       const Home(),
     ];
 
@@ -38,7 +38,17 @@ class Root extends HookWidget {
         items: items,
         currentIndex: index.value,
         onTap: (indexTap){
-          index.value = indexTap;
+          if (indexTap == 1){
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context){
+                return const Map();
+              })
+            );
+          }
+          else{
+            index.value = indexTap;
+          }
         },
       )
     );

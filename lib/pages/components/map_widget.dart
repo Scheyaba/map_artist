@@ -73,7 +73,7 @@ class _MapWidgetState extends State<MapWidget> {
                   color: Colors.grey.shade800,
                 ),
               ),
-              bottomNavigationBar: RecordButton(),
+              bottomNavigationBar: const RecordButton(),
             );
           }
           else {

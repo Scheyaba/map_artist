@@ -8,29 +8,32 @@ class Map extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MapPage'),
-        centerTitle: true,
-        elevation: 10,
-      ),
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('MapPage'),
+            centerTitle: true,
+            elevation: 10,
+          ),
 
-      body: FutureBuilder<Object>(
-        future: determinePosition(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return MapWidget(permission : snapshot.data);
-          }
-          else if (snapshot.hasError) {
-            return const MapWidget();
-          }
-          else {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
-          }
-        }
-      ),
+          body: FutureBuilder<Object>(
+            future: determinePosition(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return MapWidget(permission : snapshot.data);
+              }
+              else if (snapshot.hasError) {
+                return const MapWidget();
+              }
+              else {
+                return const Center(
+                  child: CircularProgressIndicator()
+                );
+              }
+            }
+          ),
+        ),
     );
   }
 }
+

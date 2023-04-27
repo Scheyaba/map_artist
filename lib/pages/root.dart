@@ -44,7 +44,6 @@ class Root extends HookWidget {
               MaterialPageRoute(builder: (context){
                 return const Map();
               })
-            
             );
           }
           else{

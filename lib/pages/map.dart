@@ -10,7 +10,6 @@ class Map extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.map),
         title: const Text('MapPage'),
         centerTitle: true,
         elevation: 10,

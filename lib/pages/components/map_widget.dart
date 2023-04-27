@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'map_record.dart';
+
 class MapWidget extends StatefulWidget {
   final LocationPermission permission;
   const MapWidget({super.key, this.permission=LocationPermission.denied});
@@ -71,6 +73,7 @@ class _MapWidgetState extends State<MapWidget> {
                   color: Colors.grey.shade800,
                 ),
               ),
+              bottomNavigationBar: RecordButton(),
             );
           }
           else {

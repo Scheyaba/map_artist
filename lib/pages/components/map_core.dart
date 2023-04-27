@@ -1,23 +1,25 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'map_record.dart';
 
-class MapWidget extends StatefulWidget {
+class MapWidget extends ConsumerStatefulWidget {
   final LocationPermission permission;
   const MapWidget({super.key, this.permission=LocationPermission.denied});
-  
+
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _MapWidgetState extends ConsumerState<MapWidget> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
   late LocationPermission _permission;
   late Position _position;
-  LatLng _center = const LatLng(35.6816, 139.7655);
+  LatLng _center = const LatLng(35.6816, 139.7655);  
 
   Future<void> _goToCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -31,7 +33,7 @@ class _MapWidgetState extends State<MapWidget> {
         )
       )
     );
-  }
+  }  
 
   Future<LatLng> _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

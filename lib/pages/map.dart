@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:map_artist/providers/map_provider.dart';
 
 import './components/map_position.dart';
 import './components/map_widget.dart';
 
-class Map extends StatelessWidget {
+class Map extends ConsumerWidget {
   const Map({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeNotifierProvider);
     return MaterialApp(
+      theme : theme,
       home: Scaffold(
           appBar: AppBar(
             title: const Text('MapPage'),
@@ -17,7 +22,7 @@ class Map extends StatelessWidget {
           ),
 
           body: FutureBuilder<Object>(
-            future: determinePosition(),
+            future: determinePermission(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return MapWidget(permission : snapshot.data);
@@ -36,4 +41,3 @@ class Map extends StatelessWidget {
     );
   }
 }
-

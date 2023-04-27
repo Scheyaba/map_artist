@@ -1,22 +1,28 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RecordButton extends StatelessWidget {
+import 'package:map_artist/providers/map_provider.dart';
+
+class RecordButton extends ConsumerWidget {
   const RecordButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
+  Widget build(BuildContext context, WidgetRef ref) {
+     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ElevatedButton(
-          onPressed:(){},
+          onPressed:(){
+
+            ref.read(themeNotifierProvider.notifier).recordingState();
+          },
           child: Text('Start', style: const TextStyle(fontSize: 18),),
         ),
         ElevatedButton(
-          onPressed:(){},
+          onPressed:(){
+
+            ref.read(themeNotifierProvider.notifier).resetState();
+          },
           child: Text('Stop', style: const TextStyle(fontSize: 18),),
         ),
       ],

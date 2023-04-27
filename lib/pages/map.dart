@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:map_artist/providers/map_provider.dart';
 
-import './components/map_position.dart';
+import './components/map_permission.dart';
 import './components/map_core.dart';
 
 class Map extends ConsumerWidget {

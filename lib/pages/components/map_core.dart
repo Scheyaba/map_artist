@@ -5,7 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'map_record.dart';
+import 'package:map_artist/providers/map_provider.dart';
+import 'record_button.dart';
 
 class MapWidget extends ConsumerStatefulWidget {
   final LocationPermission permission;
@@ -19,7 +20,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
   late LocationPermission _permission;
   late Position _position;
-  LatLng _center = const LatLng(35.6816, 139.7655);  
+  LatLng _center = const LatLng(35.6816, 139.7655);
 
   Future<void> _goToCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -50,6 +51,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    List<LatLng> points = ref.watch(pointsNotifierProvider);
+
     if (_permission == LocationPermission.whileInUse || _permission == LocationPermission.always) {
       return FutureBuilder<Object>(
         future: _getCurrentLocation(),
@@ -66,6 +69,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                 initialCameraPosition: CameraPosition(
                   target: _center, zoom: 14.0,
                 ),
+                polylines:{Polyline(
+                  polylineId: PolylineId('polyline'),
+                  color: Colors.orange,
+                  width: 3,
+                  points: points,
+                )},
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: _goToCurrentLocation,

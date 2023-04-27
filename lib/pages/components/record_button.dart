@@ -16,14 +16,14 @@ class RecordButton extends ConsumerWidget {
 
             ref.read(themeNotifierProvider.notifier).recordingState();
           },
-          child: Text('Start', style: const TextStyle(fontSize: 18),),
+          child: const Text('Start', style: TextStyle(fontSize: 18),),
         ),
         ElevatedButton(
           onPressed:(){
 
             ref.read(themeNotifierProvider.notifier).resetState();
           },
-          child: Text('Stop', style: const TextStyle(fontSize: 18),),
+          child: const Text('Stop', style: TextStyle(fontSize: 18),),
         ),
       ],
     );

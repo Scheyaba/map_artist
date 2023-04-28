@@ -1,19 +1,22 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'map_record.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MapWidget extends StatefulWidget {
+import 'package:map_artist/providers/map_provider.dart';
+import 'record_button.dart';
+
+class MapWidget extends ConsumerStatefulWidget {
   final LocationPermission permission;
   const MapWidget({super.key, this.permission=LocationPermission.denied});
-  
+
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _MapWidgetState extends ConsumerState<MapWidget> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
   late LocationPermission _permission;
   late Position _position;
@@ -31,7 +34,7 @@ class _MapWidgetState extends State<MapWidget> {
         )
       )
     );
-  }
+  }  
 
   Future<LatLng> _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -48,6 +51,8 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    List<LatLng> points = ref.watch(pointsNotifierProvider);
+
     if (_permission == LocationPermission.whileInUse || _permission == LocationPermission.always) {
       return FutureBuilder<Object>(
         future: _getCurrentLocation(),
@@ -64,6 +69,12 @@ class _MapWidgetState extends State<MapWidget> {
                 initialCameraPosition: CameraPosition(
                   target: _center, zoom: 14.0,
                 ),
+                polylines:{Polyline(
+                  polylineId: PolylineId('polyline'),
+                  color: Colors.orange,
+                  width: 3,
+                  points: points,
+                )},
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: _goToCurrentLocation,

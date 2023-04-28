@@ -8,6 +8,8 @@ import 'package:map_artist/data/points.dart';
 import 'package:map_artist/providers/map_provider.dart';
 import 'package:map_artist/providers/database_provider.dart';
 
+import 'package:map_artist/utils.dart';
+
 class SaveUI extends HookConsumerWidget {
   const SaveUI({super.key});
   @override
@@ -19,19 +21,7 @@ class SaveUI extends HookConsumerWidget {
     final pointsListNotifier = ref.watch(pointsListProvider.notifier);
 
     final List pointsList = points.map((e) => e.toJson()).toList();
-
-    final int numRows = pointsList.length;
-    final int numCols = pointsList[0].length;
-
-    List<double> colSums = List.filled(numCols, 0);
-    for (int i = 0; i < numCols; i++) {
-      for (int j = 0; j < numRows; j++) {
-        colSums[i] += pointsList[j][i];
-      }
-      colSums[i] /= numRows;
-    }
-
-    LatLng center = LatLng.fromJson(colSums) ?? const LatLng(35.6816, 139.7655);
+    final LatLng center = culcCenter(points);
 
     return Scaffold(
       appBar: AppBar(

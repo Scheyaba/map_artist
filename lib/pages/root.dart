@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:map_artist/pages/home.dart';
 import 'package:map_artist/pages/map.dart';
+import 'package:map_artist/pages/record.dart';
 
 class Root extends HookWidget {
   const Root({super.key});
@@ -20,15 +21,15 @@ class Root extends HookWidget {
         label:"Map"
         ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label:"ホーム"
+        icon: Icon(Icons.folder),
+        label:"Data"
         ),
     ];
 
     final pages = [
       const Home(),
       const Placeholder(),
-      const Home(),
+      const Record(),
     ];
 
     return Scaffold(

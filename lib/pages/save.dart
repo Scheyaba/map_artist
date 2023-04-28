@@ -8,30 +8,21 @@ import 'package:map_artist/data/points.dart';
 import 'package:map_artist/providers/map_provider.dart';
 import 'package:map_artist/providers/database_provider.dart';
 
+import 'package:map_artist/utils.dart';
+
 class SaveUI extends HookConsumerWidget {
   const SaveUI({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textEditingController = useTextEditingController();
     final focusNode = useFocusNode();
+    final inputText = useState("");
 
     final points = ref.watch(pointsNotifierProvider);
     final pointsListNotifier = ref.watch(pointsListProvider.notifier);
 
     final List pointsList = points.map((e) => e.toJson()).toList();
-
-    final int numRows = pointsList.length;
-    final int numCols = pointsList[0].length;
-
-    List<double> colSums = List.filled(numCols, 0);
-    for (int i = 0; i < numCols; i++) {
-      for (int j = 0; j < numRows; j++) {
-        colSums[i] += pointsList[j][i];
-      }
-      colSums[i] /= numRows;
-    }
-
-    LatLng center = LatLng.fromJson(colSums) ?? const LatLng(35.6816, 139.7655);
+    final LatLng center = culcCenter(points);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,12 +53,14 @@ class SaveUI extends HookConsumerWidget {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
+                      inputText.value = "";
                       textEditingController.clear();
                     },
                   )
                 ),
                 onChanged: (text){
-                  debugPrint(textEditingController.text);
+                  inputText.value = text;
+                  debugPrint(inputText.value);
                 },
               ),
             ),
@@ -88,7 +81,7 @@ class SaveUI extends HookConsumerWidget {
                   target: center, zoom: 14.0,
                 ),
                 polylines:{Polyline(
-                  polylineId: PolylineId('polyline'),
+                  polylineId: const PolylineId('polyline'),
                   color: Colors.orange,
                   width: 3,
                   points: points,
@@ -98,10 +91,10 @@ class SaveUI extends HookConsumerWidget {
             ),
             
             ElevatedButton(
-              onPressed: () {
+              onPressed: inputText.value == "" ? null : () {
                pointsListNotifier.add(
                   PointsRecord(
-                    title: textEditingController.text, points: pointsList, createdAt: DateTime.now()
+                    title: inputText.value, points: pointsList, createdAt: DateTime.now()
                   ),
                 ).then((_) => ref.read(pointsNotifierProvider.notifier).resetPointState())
                 .then((_) => Navigator.pushNamed(context, "/"));

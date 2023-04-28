@@ -27,7 +27,7 @@ class Root extends HookWidget {
     ];
 
     final pages = [
-      const Home(),
+      Home(),
       const Placeholder(),
       const Record(),
     ];

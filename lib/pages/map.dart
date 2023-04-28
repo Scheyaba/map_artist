@@ -12,13 +12,7 @@ class Map extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeNotifierProvider);
-    // Debug Code
-    // final nowLocation = ref.watch(gettingLocationStreamNotifierProvider);
-    // final locationText = nowLocation.when(
-    //   loading: () => const Text('現在位置取得中'),
-    //   error: (e, s) => Text('エラー $e'),
-    //   data: (d) => Text("現在地:$d"),
-    // );
+
     return MaterialApp(
       theme : theme,
       home: Scaffold(

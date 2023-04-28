@@ -37,9 +37,20 @@ class PointsNotifier extends _$PointsNotifier {
       LatLng(35.6841, 139.7614),
     ];
   }
+
   void addPointState(LatLng newPoint) {
     var newState = [...state];
     newState.add(newPoint);
     state = newState;
+  }
+  void resetPointState() {
+    state = [
+      LatLng(35.6841, 139.7614),
+      LatLng(35.6844, 139.7703),
+      LatLng(35.6815, 139.7645),
+      LatLng(35.6890, 139.7670),
+      LatLng(35.6818, 139.7684),
+      LatLng(35.6841, 139.7614),
+    ];
   }
 }

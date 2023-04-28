@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:map_artist/pages/root.dart';
+import 'package:map_artist/data/database.dart';
+import 'package:map_artist/providers/database_provider.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MapArtist()));
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final dbHelper = DbHelper();
+  await dbHelper.initialize();  
+  
+  runApp(ProviderScope(
+    overrides: [
+      databaseProvider.overrideWithValue(dbHelper),
+    ],
+    child: MapArtist()
+  ));
 }
 
 class MapArtist extends StatelessWidget {

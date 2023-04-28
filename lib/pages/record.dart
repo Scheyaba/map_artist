@@ -30,6 +30,7 @@ class Record extends HookConsumerWidget {
           return Card(
             child: ListTile(
               title: Text(points[index].value.title),
+              subtitle: Text("${points[index].value.createdAt}"),
               trailing: IconButton(// Todo:ココを押すと保存された線データをGoogleMap上に表示したページに遷移
                 icon: const Icon(Icons.open_in_new),
                 onPressed: () {

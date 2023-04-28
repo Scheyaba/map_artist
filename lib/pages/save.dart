@@ -16,6 +16,7 @@ class SaveUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textEditingController = useTextEditingController();
     final focusNode = useFocusNode();
+    final inputText = useState("");
 
     final points = ref.watch(pointsNotifierProvider);
     final pointsListNotifier = ref.watch(pointsListProvider.notifier);
@@ -52,12 +53,14 @@ class SaveUI extends HookConsumerWidget {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
+                      inputText.value = "";
                       textEditingController.clear();
                     },
                   )
                 ),
                 onChanged: (text){
-                  debugPrint(textEditingController.text);
+                  inputText.value = text;
+                  debugPrint(inputText.value);
                 },
               ),
             ),
@@ -78,7 +81,7 @@ class SaveUI extends HookConsumerWidget {
                   target: center, zoom: 14.0,
                 ),
                 polylines:{Polyline(
-                  polylineId: PolylineId('polyline'),
+                  polylineId: const PolylineId('polyline'),
                   color: Colors.orange,
                   width: 3,
                   points: points,
@@ -88,14 +91,14 @@ class SaveUI extends HookConsumerWidget {
             ),
             
             ElevatedButton(
-              onPressed: textEditingController.text != "" ? () {
+              onPressed: inputText.value == "" ? null : () {
                pointsListNotifier.add(
                   PointsRecord(
-                    title: textEditingController.text, points: pointsList, createdAt: DateTime.now()
+                    title: inputText.value, points: pointsList, createdAt: DateTime.now()
                   ),
                 ).then((_) => ref.read(pointsNotifierProvider.notifier).resetPointState())
                 .then((_) => Navigator.pushNamed(context, "/"));
-              } : null,
+              },
               child: const Text("Save"),
             ),
           ],

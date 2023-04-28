@@ -23,7 +23,8 @@ class Record extends HookConsumerWidget {
         centerTitle: true,
         elevation: 10,
       ),
-      body: points.isEmpty ? ListView.builder(
+      body: points.isEmpty ? const Center(child: Text("保存されたデータはありません")):
+      ListView.builder(
         itemCount: points.length,
         padding: const EdgeInsets.all(16),
         itemBuilder: (BuildContext context, int index) {
@@ -41,7 +42,6 @@ class Record extends HookConsumerWidget {
           );
         } 
       )
-      : const Center(child: Text("保存されたデータはありません")),
     );
   }
 }

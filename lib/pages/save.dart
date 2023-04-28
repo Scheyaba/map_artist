@@ -98,14 +98,14 @@ class SaveUI extends HookConsumerWidget {
             ),
             
             ElevatedButton(
-              onPressed: () {
+              onPressed: textEditingController.text != "" ? () {
                pointsListNotifier.add(
                   PointsRecord(
                     title: textEditingController.text, points: pointsList, createdAt: DateTime.now()
                   ),
                 ).then((_) => ref.read(pointsNotifierProvider.notifier).resetPointState())
                 .then((_) => Navigator.pushNamed(context, "/"));
-              },
+              } : null,
               child: const Text("Save"),
             ),
           ],

@@ -21,7 +21,7 @@ class Preview extends StatelessWidget {
         leading: IconButton(
             onPressed: (){Navigator.pop(context);},
             icon: const Icon(Icons.arrow_back, color: Colors.black,),),
-        title: Text(record.value.title, style: const TextStyle(color: Colors.black)),
+        title: Text(record.value.title),
         actions: [
           IconButton(
             onPressed: (){},

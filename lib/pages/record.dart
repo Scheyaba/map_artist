@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import 'package:map_artist/providers/database_provider.dart';
 import 'package:map_artist/providers/app_theme_provider.dart';
@@ -49,11 +50,12 @@ class Record extends HookConsumerWidget {
           return Card(
             child: ListTile(
               title: Text(points[index].value.title),
-              subtitle: Text("${points[index].value.createdAt}"),
-              trailing: IconButton(// Todo:ココを押すと保存された線データをGoogleMap上に表示したページに遷移
+              subtitle: Text(
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(points[index].value.createdAt)
+              ),
+              trailing: IconButton(
                 icon: const Icon(Icons.map),
                 onPressed: () {
-                  debugPrint('${points[index].value.points}');
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context){return Preview(record:points[index]);}
                   ));

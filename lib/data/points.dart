@@ -2,9 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 // flutter pub run build_runner watch で CodeGenerating
 
-//import 'latlng.dart';[削除予定]
-
-
 part 'points.freezed.dart';
 part 'points.g.dart';
 

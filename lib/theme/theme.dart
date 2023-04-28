@@ -16,3 +16,9 @@ ThemeData recordTheme = ThemeData(
     )
   )
 );
+
+ThemeData lightThemeData = ThemeData();
+
+ThemeData darkThemeData = ThemeData(
+  brightness: Brightness.dark,
+);

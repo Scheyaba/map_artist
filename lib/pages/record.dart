@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:map_artist/providers/database_provider.dart';
+import 'package:map_artist/providers/app_theme_provider.dart';
 import 'package:map_artist/pages/preview.dart';
 
 class Record extends HookConsumerWidget {
@@ -12,6 +13,14 @@ class Record extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final points = ref.watch(pointsListProvider);
     final pointsNotifier = ref.watch(pointsListProvider.notifier);
+
+    ThemeMode modeNow = ref.watch(appThemeNotifierProvider);
+    if (modeNow == ThemeMode.system){
+      bool isDarkMode = WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
+      modeNow = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    }
+    IconData switchIcon = modeNow == ThemeMode.light ? Icons.dark_mode : Icons.light_mode;
+    ThemeMode modeNext = modeNow == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
 
     useEffect(() {
       pointsNotifier.find();
@@ -23,6 +32,14 @@ class Record extends HookConsumerWidget {
         title: const Text('Your Data'),
         centerTitle: true,
         elevation: 10,
+        actions: [
+          IconButton(
+            icon: Icon(switchIcon),
+            onPressed: () {
+              ref.read(appThemeNotifierProvider.notifier).updateState(modeNext);
+            },
+          ),
+        ],
       ),
       body: points.isEmpty ? const Center(child: Text("保存されたデータはありません")):
       ListView.builder(

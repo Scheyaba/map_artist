@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:map_artist/providers/database_provider.dart';
+import 'package:map_artist/pages/preview.dart';
 
 class Record extends HookConsumerWidget {
   const Record({super.key});
@@ -33,9 +34,12 @@ class Record extends HookConsumerWidget {
               title: Text(points[index].value.title),
               subtitle: Text("${points[index].value.createdAt}"),
               trailing: IconButton(// Todo:ココを押すと保存された線データをGoogleMap上に表示したページに遷移
-                icon: const Icon(Icons.open_in_new),
+                icon: const Icon(Icons.map),
                 onPressed: () {
                   debugPrint('${points[index].value.points}');
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context){return Preview(record:points[index]);}
+                  ));
                 },
               ),
             )

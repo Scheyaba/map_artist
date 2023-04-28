@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_artist/providers/map_provider.dart';
 
-import 'data_save_dialog.dart';
+import 'package:map_artist/pages/save.dart';
 
 class RecordButton extends HookConsumerWidget {
   const RecordButton({super.key});
@@ -53,9 +53,11 @@ class RecordButton extends HookConsumerWidget {
           onPressed: recording.value ? (){
             ref.read(themeNotifierProvider.notifier).resetState();
             stopSubscription();
-            showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => const SaveUI()
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context){
+                return const SaveUI();
+              })
             );
           } : null,
           child: const Text('Stop', style: TextStyle(fontSize: 18),),

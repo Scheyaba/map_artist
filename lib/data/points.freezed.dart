@@ -165,7 +165,8 @@ PointsRecord _$PointsRecordFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PointsRecord {
   String get title => throw _privateConstructorUsedError;
-  List<LatLng> get points => throw _privateConstructorUsedError;
+  List<dynamic> get points => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -179,7 +180,7 @@ abstract class $PointsRecordCopyWith<$Res> {
           PointsRecord value, $Res Function(PointsRecord) then) =
       _$PointsRecordCopyWithImpl<$Res, PointsRecord>;
   @useResult
-  $Res call({String title, List<LatLng> points});
+  $Res call({String title, List<dynamic> points, DateTime createdAt});
 }
 
 /// @nodoc
@@ -197,6 +198,7 @@ class _$PointsRecordCopyWithImpl<$Res, $Val extends PointsRecord>
   $Res call({
     Object? title = null,
     Object? points = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -206,7 +208,11 @@ class _$PointsRecordCopyWithImpl<$Res, $Val extends PointsRecord>
       points: null == points
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
-              as List<LatLng>,
+              as List<dynamic>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -219,7 +225,7 @@ abstract class _$$_PointsRecordCopyWith<$Res>
       __$$_PointsRecordCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, List<LatLng> points});
+  $Res call({String title, List<dynamic> points, DateTime createdAt});
 }
 
 /// @nodoc
@@ -235,6 +241,7 @@ class __$$_PointsRecordCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? points = null,
+    Object? createdAt = null,
   }) {
     return _then(_$_PointsRecord(
       title: null == title
@@ -244,7 +251,11 @@ class __$$_PointsRecordCopyWithImpl<$Res>
       points: null == points
           ? _value._points
           : points // ignore: cast_nullable_to_non_nullable
-              as List<LatLng>,
+              as List<dynamic>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -252,7 +263,10 @@ class __$$_PointsRecordCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PointsRecord implements _PointsRecord {
-  _$_PointsRecord({required this.title, required final List<LatLng> points})
+  _$_PointsRecord(
+      {required this.title,
+      required final List<dynamic> points,
+      required this.createdAt})
       : _points = points;
 
   factory _$_PointsRecord.fromJson(Map<String, dynamic> json) =>
@@ -260,17 +274,20 @@ class _$_PointsRecord implements _PointsRecord {
 
   @override
   final String title;
-  final List<LatLng> _points;
+  final List<dynamic> _points;
   @override
-  List<LatLng> get points {
+  List<dynamic> get points {
     if (_points is EqualUnmodifiableListView) return _points;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_points);
   }
 
   @override
+  final DateTime createdAt;
+
+  @override
   String toString() {
-    return 'PointsRecord(title: $title, points: $points)';
+    return 'PointsRecord(title: $title, points: $points, createdAt: $createdAt)';
   }
 
   @override
@@ -279,13 +296,15 @@ class _$_PointsRecord implements _PointsRecord {
         (other.runtimeType == runtimeType &&
             other is _$_PointsRecord &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other._points, _points));
+            const DeepCollectionEquality().equals(other._points, _points) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, const DeepCollectionEquality().hash(_points));
+  int get hashCode => Object.hash(runtimeType, title,
+      const DeepCollectionEquality().hash(_points), createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -304,7 +323,8 @@ class _$_PointsRecord implements _PointsRecord {
 abstract class _PointsRecord implements PointsRecord {
   factory _PointsRecord(
       {required final String title,
-      required final List<LatLng> points}) = _$_PointsRecord;
+      required final List<dynamic> points,
+      required final DateTime createdAt}) = _$_PointsRecord;
 
   factory _PointsRecord.fromJson(Map<String, dynamic> json) =
       _$_PointsRecord.fromJson;
@@ -312,7 +332,9 @@ abstract class _PointsRecord implements PointsRecord {
   @override
   String get title;
   @override
-  List<LatLng> get points;
+  List<dynamic> get points;
+  @override
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_PointsRecordCopyWith<_$_PointsRecord> get copyWith =>

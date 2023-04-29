@@ -23,89 +23,94 @@ class SaveUI extends HookConsumerWidget {
 
     final List pointsList = points.map((e) => e.toJson()).toList();
     final LatLng center = culcCenter(points);
+    // final double zoomLevel = culcBestCamera(points);
+    //final CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 50.0);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Save'),
-        centerTitle: true,
-        elevation: 10,
-        actions: const [Icon(Icons.save),],
-      ),
-
-      body: GestureDetector(
-      onTap: () {
-        focusNode.unfocus();
-      },
-
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                maxLines: 1,
-                maxLength: 64,
-                focusNode: focusNode,
-                controller: textEditingController,     
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "Title",
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      inputText.value = "";
-                      textEditingController.clear();
-                    },
-                  )
-                ),
-                onChanged: (text){
-                  inputText.value = text;
-                  debugPrint(inputText.value);
-                },
-              ),
-            ),
-
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.black,
-                    width: 2
-                ),
-              ),
-              child: SizedBox(
-                width: 350,
-                height: 350,
-                child: GoogleMap(
-                zoomControlsEnabled: false,
-                initialCameraPosition: CameraPosition(
-                  target: center, zoom: 14.0,
-                ),
-                polylines:{Polyline(
-                  polylineId: const PolylineId('polyline'),
-                  color: Colors.orange,
-                  width: 3,
-                  points: points,
-                )},
-              ),
-            ),
-            ),
-            
-            ElevatedButton(
-              onPressed: inputText.value == "" ? null : () {
-               pointsListNotifier.add(
-                  PointsRecord(
-                    title: inputText.value, points: pointsList, createdAt: DateTime.now()
-                  ),
-                ).then((_) => ref.read(pointsNotifierProvider.notifier).resetPointState())
-                .then((_) => Navigator.pushNamed(context, "/"));
-              },
-              child: const Text("Save"),
-            ),
+        appBar: AppBar(
+          title: const Text('Save'),
+          centerTitle: true,
+          elevation: 10,
+          actions: const [
+            Icon(Icons.save),
           ],
         ),
-      ),
-      ),
-      resizeToAvoidBottomInset: false
-    );
+        body: GestureDetector(
+          onTap: () {
+            focusNode.unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TextField(
+                    maxLines: 1,
+                    maxLength: 64,
+                    focusNode: focusNode,
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: "Title",
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            inputText.value = "";
+                            textEditingController.clear();
+                          },
+                        )),
+                    onChanged: (text) {
+                      inputText.value = text;
+                      debugPrint(inputText.value);
+                    },
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 2),
+                  ),
+                  child: SizedBox(
+                    width: 350,
+                    height: 350,
+                    child: GoogleMap(
+                      zoomControlsEnabled: false,
+                      initialCameraPosition: CameraPosition(
+                        target: center,
+                        zoom: 13, // 0: 最も高い所から俯瞰(100*100)　21: 最も近い所から俯瞰
+                      ),
+                      polylines: {
+                        Polyline(
+                          polylineId: const PolylineId('polyline'),
+                          color: Colors.orange,
+                          width: 3,
+                          points: points,
+                        )
+                      },
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: inputText.value == ""
+                      ? null
+                      : () {
+                          pointsListNotifier
+                              .add(
+                                PointsRecord(
+                                    title: inputText.value,
+                                    points: pointsList,
+                                    createdAt: DateTime.now()),
+                              )
+                              .then((_) => ref
+                                  .read(pointsNotifierProvider.notifier)
+                                  .resetPointState())
+                              .then((_) => Navigator.pushNamed(context, "/"));
+                        },
+                  child: const Text("Save"),
+                ),
+              ],
+            ),
+          ),
+        ),
+        resizeToAvoidBottomInset: false);
   }
 }

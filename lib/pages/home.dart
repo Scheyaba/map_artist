@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
+class Home extends StatelessWidget {
+  const Home({super.key});
 
-class Home extends StatelessWidget{
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/tadatakaino.png"),
+          fit: BoxFit.cover,
+        )),
 
-    return new MaterialApp(
-      title:'Flutter Demo',
-      home:Text(
-        'Hello,Flutter World!!',
-        style: TextStyle(fontSize:32.0),
-        )
+        child: null,
+      )
     );
   }
 }

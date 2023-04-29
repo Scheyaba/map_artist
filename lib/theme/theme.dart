@@ -18,8 +18,8 @@ ThemeData recordTheme = ThemeData(
 );
 
 ThemeData lightThemeData = ThemeData(
-  textTheme: const TextTheme(
-    headline1: TextStyle(
+  textTheme: TextTheme(
+    displayLarge: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.tealAccent[700],
     ),
@@ -28,8 +28,8 @@ ThemeData lightThemeData = ThemeData(
 
 ThemeData darkThemeData = ThemeData(
   brightness: Brightness.dark,
-  textTheme: const TextTheme(
-    headline1: TextStyle(
+  textTheme: TextTheme(
+    displayLarge: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.tealAccent[200],
     ),

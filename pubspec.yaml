@@ -46,6 +46,8 @@ dependencies:
   path_provider: ^2.0.14
   path: ^1.8.2
   intl: ^0.18.1
+  firebase_core: ^2.10.0
+  cloud_firestore: ^4.5.3
 
 
 dev_dependencies:
